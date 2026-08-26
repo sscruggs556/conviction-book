@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Conviction Book</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+:root{--ground:#f4f4f2;--surface:#fbfbfa;--surface-2:#eceded;--ink:#171b21;--ink-2:#4a525d;
+--ink-3:#79828e;--line:#dcdedd;--line-2:#c6c9c8;--accent:#1f6f6b;--accent-soft:#1f6f6b1f;
+--pos:#2f7d4f;--warn:#a8701f;--neg:#a33a34;--shadow:0 1px 2px #171b210d,0 8px 24px #171b210a}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ground:#14171c;--surface:#1a1e24;
+--surface-2:#22272e;--ink:#e9ebed;--ink-2:#a8b1bb;--ink-3:#79828e;--line:#2b3138;--line-2:#3a424b;
+--accent:#4fb3a8;--accent-soft:#4fb3a824;--pos:#5aa877;--warn:#cf9a45;--neg:#cf6b64;
+--shadow:0 1px 2px #0006,0 8px 24px #0004}}
+:root[data-theme="dark"]{--ground:#14171c;--surface:#1a1e24;--surface-2:#22272e;--ink:#e9ebed;
+--ink-2:#a8b1bb;--ink-3:#79828e;--line:#2b3138;--line-2:#3a424b;--accent:#4fb3a8;
+--accent-soft:#4fb3a824;--pos:#5aa877;--warn:#cf9a45;--neg:#cf6b64;
+--shadow:0 1px 2px #0006,0 8px 24px #0004}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:Archivo,-apple-system,
+BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1140px;margin:0 auto;padding:56px 24px 96px}
+.mono{font-family:"IBM Plex Mono",ui-monospace,Menlo,monospace;font-variant-numeric:tabular-nums}
+h1,h2{text-wrap:balance;margin:0}
+.masthead{display:flex;flex-wrap:wrap;gap:24px;align-items:flex-end;justify-content:space-between;
+padding-bottom:24px;border-bottom:1px solid var(--line-2)}
+h1{font-family:Newsreader,Georgia,serif;font-weight:500;font-size:clamp(2.1rem,4.6vw,3.1rem);
+letter-spacing:-.015em;line-height:1.05}
+.kicker{font-size:.72rem;font-weight:600;letter-spacing:.13em;text-transform:uppercase;
+color:var(--accent);margin-bottom:10px}
+.stamp{text-align:right;font-size:.8rem;color:var(--ink-2);line-height:1.7}
+.stamp b{color:var(--ink);font-weight:600}
+.mode{display:inline-flex;align-items:center;gap:7px;font-size:.72rem;font-weight:600;
+letter-spacing:.09em;text-transform:uppercase}
+.mode.live{color:var(--pos)} .mode.dry{color:var(--ink-3)}
+.dot{width:7px;height:7px;border-radius:50%;background:currentColor}
+.funnel{display:flex;flex-wrap:wrap;margin:36px 0 12px;border:1px solid var(--line);
+border-radius:3px;background:var(--surface);overflow:hidden}
+.stage{flex:1 1 150px;padding:18px 22px;border-right:1px solid var(--line)}
+.stage:last-child{border-right:0;background:var(--accent-soft)}
+.stage .n{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;font-size:1.9rem;
+font-weight:500;letter-spacing:-.02em;display:block}
+.stage .l{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);font-weight:600}
+.stage:last-child .n{color:var(--accent)}
+.note{font-size:.85rem;color:var(--ink-2);margin:0 0 44px;max-width:66ch}
+.sec{display:flex;align-items:baseline;gap:14px;margin:0 0 4px}
+.sec h2{font-family:Newsreader,Georgia,serif;font-weight:500;font-size:1.5rem;letter-spacing:-.01em}
+.sec .rule{flex:1;height:1px;background:var(--line-2)}
+.sec .count{font-size:.75rem;color:var(--ink-3);font-weight:600;letter-spacing:.06em}
+.sub{font-size:.87rem;color:var(--ink-2);margin:6px 0 26px;max-width:70ch}
+.book{display:flex;flex-direction:column;gap:14px;margin-bottom:64px}
+.pos{background:var(--surface);border:1px solid var(--line);border-radius:3px;padding:20px 22px;
+box-shadow:var(--shadow);display:grid;grid-template-columns:168px 1fr 210px;gap:26px;align-items:start}
+.tick{display:flex;flex-direction:column;gap:9px}
+.sym{font-family:"IBM Plex Mono",monospace;font-size:1.4rem;font-weight:600;letter-spacing:-.02em}
+.name{font-size:.76rem;color:var(--ink-3);line-height:1.35;margin-top:-6px}
+.meter{height:5px;background:var(--surface-2);border-radius:2px;overflow:hidden}
+.meter i{display:block;height:100%;background:var(--accent);border-radius:2px}
+.score{font-size:.72rem;color:var(--ink-2)}
+.score b{font-family:"IBM Plex Mono",monospace;color:var(--ink);font-weight:600}
+.why{font-size:.91rem;color:var(--ink-2);line-height:1.6}
+.why p{margin:0}
+.chip{display:inline-block;font-size:.68rem;font-weight:600;letter-spacing:.07em;
+text-transform:uppercase;padding:3px 9px;border-radius:2px;margin-bottom:9px}
+.c-clean{background:#2f7d4f1f;color:var(--pos)}
+.c-cycle,.c-legal,.c-warn{background:#a8701f1f;color:var(--warn)}
+.c-decl{background:#a33a341f;color:var(--neg)}
+.alloc{text-align:right}
+.amt{font-family:"IBM Plex Mono",monospace;font-size:1.75rem;font-weight:600;
+letter-spacing:-.03em;display:block}
+.vs{font-size:.72rem;color:var(--ink-3);margin-top:2px}
+.vs .up{color:var(--pos);font-weight:600} .vs .dn{color:var(--warn);font-weight:600}
+.stats{margin-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:5px 14px;font-size:.73rem;
+color:var(--ink-3);text-align:left}
+.stats span{display:flex;justify-content:space-between;gap:8px;border-bottom:1px dotted var(--line);
+padding-bottom:2px}
+.stats b{font-family:"IBM Plex Mono",monospace;color:var(--ink-2);font-weight:500}
+.nil{color:var(--ink-3)}
+.sig{list-style:none;margin:12px 0 0;padding:0;display:flex;flex-direction:column;gap:6px}
+.sig li{font-size:.82rem;line-height:1.5;padding-left:11px;border-left:2px solid var(--line-2)}
+.sig .tag{display:block;font-size:.63rem;font-weight:700;letter-spacing:.09em;
+text-transform:uppercase;color:var(--ink-3);margin-bottom:1px}
+.sig .s-good,.sig li.s-good{border-left-color:var(--pos)}
+.sig li.s-bad{border-left-color:var(--neg)}
+.sig li.s-neutral{border-left-color:var(--line-2)}
+.verdict{font-family:Archivo,sans-serif;font-size:.63rem;font-weight:700;letter-spacing:.08em;
+text-transform:uppercase;padding:2px 7px;border-radius:2px}
+.v-veto{background:#a33a341f;color:var(--neg)}
+.v-below{background:var(--surface-2);color:var(--ink-3)}
+td.reason{font-family:Archivo,sans-serif;text-align:left;color:var(--ink-2);font-size:.8rem;
+line-height:1.45;min-width:280px}
+.scroll{overflow-x:auto;border:1px solid var(--line);border-radius:3px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:660px;font-size:.85rem}
+th{font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);font-weight:600;
+text-align:right;padding:12px 14px;border-bottom:1px solid var(--line-2);white-space:nowrap}
+th:first-child{text-align:left}
+td{padding:11px 14px;border-bottom:1px solid var(--line);text-align:right;
+font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;color:var(--ink-2)}
+td:first-child{text-align:left;color:var(--ink);font-weight:600}
+tr:last-child td{border-bottom:0}
+footer{margin-top:64px;padding-top:22px;border-top:1px solid var(--line-2);font-size:.79rem;
+color:var(--ink-3);line-height:1.7;max-width:78ch}
+footer b{color:var(--ink-2);font-weight:600}
+@media (max-width:860px){.pos{grid-template-columns:1fr;gap:16px}.alloc{text-align:left}
+.wrap{padding:36px 18px 64px}}
+</style></head><body>
+<div class="wrap">
+<header class="masthead">
+<div><div class="kicker">Quality at a fair price · daily screen</div><h1>Conviction Book</h1></div>
+<div class="stamp"><span class="mode dry"><span class="dot"></span>Dry run · no orders sent</span><br>
+Run of <b>26 Aug 2026, 13:56 UTC</b><br>Deployable capital <b class="mono">$354.00</b></div>
+</header>
+<div class="funnel">
+<div class="stage"><span class="n mono">152</span><span class="l">Examined</span></div>
+<div class="stage"><span class="n mono">142</span><span class="l">Passed vetoes</span></div>
+<div class="stage"><span class="n mono">14</span><span class="l">Above threshold</span></div>
+<div class="stage"><span class="n mono">8</span><span class="l">Sized</span></div>
+</div>
+<p class="note">Every name here is cheap for a reason — that is what a value screen selects for.
+The judgment that matters is whether the price already pays for the reason, so each position records
+what the risk is and why it argues about <em>size</em> rather than ownership.</p>
+<div class="sec"><h2>Positions</h2><div class="rule"></div>
+<span class="count">8 · $354 deployed</span></div>
+<p class="sub">Ranked by allocation, not by score. Where the two disagree, the research overrode the
+model — the difference is shown against each name.</p>
+<div class="book">
+    <article class="pos">
+      <div class="tick">
+        <span class="sym">AUPH</span>
+        <span class="name">Aurinia Pharmaceuticals</span>
+        <div class="meter"><i style="width:82.9%"></i></div>
+        <span class="score">Score <b>82.9</b> · quality <b>100</b> · value <b>93</b></span>
+      </div>
+      <div class="why">
+        <span class="chip c-clean">Cleanest setup</span>
+        <p>The cheapest quality name in the book — P/E 7.3 on 66% ROE and 48% operating margins. The Teva patent suit that shadowed it for months is settled, FY26 guidance was reiterated, and a pullback has put the price back below the ~$17.30 analyst consensus, resolving last week&#x27;s concern that it had already re-rated past target. Single-drug concentration in LUPKYNIS remains the standing risk.</p>
+        <ul class="sig"><li class="s-good"><span class="tag">Financials</span>P/E 7.3 on 66% ROE and 48% operating margins — the cheapest quality combination in the book.</li><li class="s-good"><span class="tag">Legal &amp; regulatory</span>Teva patent suit settled; generic entry blocked to Dec 2036, removing the largest overhang.</li><li class="s-good"><span class="tag">Plans &amp; outlook</span>FY26 guidance reiterated at $315–325M; price back below the ~$17.30 analyst consensus after a pullback.</li><li class="s-bad"><span class="tag">Market &amp; competition</span>Single-product company — LUPKYNIS is effectively all revenue, so any label or competitive setback is existential.</li></ul>
+      </div>
+      <div class="alloc">
+        <span class="amt">$150</span>
+        <div class="vs">model said $93 · <span class="up">sized up</span></div>
+        <div class="stats"><span>P/E <b>7.3</b></span><span>PEG <b>0.01</b></span><span>ROE <b>66.1%</b></span><span>Op mgn <b>48.4%</b></span><span>Cap <b>$2.2B</b></span><span>Durab. <b class="nil">—</b></span></div>
+      </div>
+    </article>
+    <article class="pos">
+      <div class="tick">
+        <span class="sym">DHT</span>
+        <span class="name">DHT Holdings · crude tankers</span>
+        <div class="meter"><i style="width:81.8%"></i></div>
+        <span class="score">Score <b>81.8</b> · quality <b>92</b> · value <b>100</b></span>
+      </div>
+      <div class="why">
+        <span class="chip c-cycle">Peak-cycle earnings</span>
+        <p>A record quarter — but earned on VLCC rates near $500K/day against a $20–60K/day historical norm, driven by Strait of Hormuz disruption. A trailing P/E of 6.5 computed on ten-times-normal rates is a peak read, not a steady state. Owned because the discount is real, sized moderately because the E in that P/E is borrowed from the cycle.</p>
+        <ul class="sig"><li class="s-good"><span class="tag">Financials</span>Record Q2; trailing P/E 6.5 with 57% operating margins.</li><li class="s-bad"><span class="tag">Market &amp; competition</span>VLCC rates near $500K/day against a $20–60K/day historical norm — the E in that P/E is borrowed from a Hormuz-driven spike.</li><li class="s-neutral"><span class="tag">Plans &amp; outlook</span>Fleet fully deployed at spot; no guidance mechanism to smooth a rate reversion.</li></ul>
+      </div>
+      <div class="alloc">
+        <span class="amt">$40</span>
+        <div class="vs">model said $82 · <span class="dn">sized down</span></div>
+        <div class="stats"><span>P/E <b>6.5</b></span><span>PEG <b>0.1</b></span><span>ROE <b>39.2%</b></span><span>Op mgn <b>56.8%</b></span><span>Cap <b>$3.0B</b></span><span>Durab. <b class="nil">—</b></span></div>
+      </div>
+    </article>
+    <article class="pos">
+      <div class="tick">
+        <span class="sym">OGC</span>
+        <span class="name">OceanaGold</span>
+        <div class="meter"><i style="width:74.6%"></i></div>
+        <span class="score">Score <b>74.6</b> · quality <b>85</b> · value <b>86</b></span>
+      </div>
+      <div class="why">
+        <span class="chip c-clean">Balance-sheet strength</span>
+        <p>Confirmed debt-free with $655M cash and $130M quarterly free cash flow, guidance on track. Gold is off its January all-time high, so the commodity is not at the same extreme as the tanker names — a cyclical, but a materially less stretched one, held up by a balance sheet that survives a downturn on its own.</p>
+        <ul class="sig"><li class="s-good"><span class="tag">Financials</span>Debt-free with $655M cash and $130M quarterly free cash flow — survives a downturn unaided.</li><li class="s-good"><span class="tag">Plans &amp; outlook</span>Production guidance on track; no capital raise required.</li><li class="s-neutral"><span class="tag">Market &amp; competition</span>Gold is off its January all-time high, so the commodity is elevated but not at the extreme the tanker names sit on.</li></ul>
+      </div>
+      <div class="alloc">
+        <span class="amt">$40</span>
+        <div class="vs">model said $27 · <span class="up">sized up</span></div>
+        <div class="stats"><span>P/E <b>8.2</b></span><span>PEG <b>0.16</b></span><span>ROE <b>37.9%</b></span><span>Op mgn <b>46.2%</b></span><span>Cap <b>$6.9B</b></span><span>Durab. <b class="nil">—</b></span></div>
+      </div>
+    </article>
+    <article class="pos">
+      <div class="tick">
+        <span class="sym">VG</span>
+        <span class="name">Venture Global · LNG</span>
+        <div class="meter"><i style="width:82.1%"></i></div>
+        <span class="score">Score <b>82.1</b> · quality <b>77</b> · value <b>71</b> · durability <b>100</b></span>
+      </div>
+      <div class="why">
+        <span class="chip c-legal">Quantified legal exposure</span>
+        <p>Mixed rather than uniformly bad: won arbitration against Shell and Repsol, lost to BP (~$1B+ sought, damages hearing in 2026) against a ~$35B market cap. That is a real and now-quantifiable exposure rather than an open-ended one, and two of three disputes went VG&#x27;s way — sized down meaningfully, but not to a token, and not passed on.</p>
+        <ul class="sig"><li class="s-bad"><span class="tag">Legal &amp; regulatory</span>Lost BP arbitration — ~$1B+ sought, damages hearing in 2026.</li><li class="s-good"><span class="tag">Legal &amp; regulatory</span>Won the parallel Shell and Repsol arbitrations; two of three disputes resolved in VG&#x27;s favour.</li><li class="s-bad"><span class="tag">Financials</span>Debt-heavy LNG buildout; leverage is the one thing no automated check in this pipeline can see.</li><li class="s-good"><span class="tag">Financials</span>Durability subscore of 100 — the only sized name with a verified multi-year trend.</li></ul>
+      </div>
+      <div class="alloc">
+        <span class="amt">$35</span>
+        <div class="vs">model said $85 · <span class="dn">sized down</span></div>
+        <div class="stats"><span>P/E <b>10.7</b></span><span>PEG <b>0.28</b></span><span>ROE <b>48.1%</b></span><span>Op mgn <b>37.6%</b></span><span>Cap <b>$35.3B</b></span><span>Durab. <b>100</b></span></div>
+      </div>
+    </article>
+    <article class="pos">
+      <div class="tick">
+        <span class="sym">INCY</span>
+        <span class="name">Incyte</span>
+        <div class="meter"><i style="width:71.6%"></i></div>
+        <span class="score">Score <b>71.6</b> · quality <b>63</b> · value <b>54</b> · durability <b>100</b></span>
+      </div>
+      <div class="why">
+        <span class="chip c-clean">No overhang found</span>
+        <p>The quietest name in the book. Diversified, profitable biopharma with no adverse finding across this run or any prior one — none of the litigation, cycle exposure or share loss carried by the other seven. Sized above what the model suggested purely on that relative cleanliness. The Jakafi patent cliff around 2028 is the known clock.</p>
+        <ul class="sig"><li class="s-good"><span class="tag">Financials</span>Diversified and profitable; durability subscore 100 on verified financials.</li><li class="s-good"><span class="tag">Legal &amp; regulatory</span>No adverse finding in this run or any prior run — the quietest name on the board.</li><li class="s-bad"><span class="tag">Plans &amp; outlook</span>Jakafi patent cliff around 2028 is a known, dated clock on the largest revenue line.</li></ul>
+      </div>
+      <div class="alloc">
+        <span class="amt">$30</span>
+        <div class="vs">model said $10 · <span class="up">sized up</span></div>
+        <div class="stats"><span>P/E <b>16.5</b></span><span>PEG <b>0.35</b></span><span>ROE <b>30.7%</b></span><span>Op mgn <b>31.6%</b></span><span>Cap <b>$25.9B</b></span><span>Durab. <b>100</b></span></div>
+      </div>
+    </article>
+    <article class="pos">
+      <div class="tick">
+        <span class="sym">APP</span>
+        <span class="name">AppLovin</span>
+        <div class="meter"><i style="width:73.3%"></i></div>
+        <span class="score">Score <b>73.3</b> · quality <b>81</b> · value <b>45</b> · durability <b>92</b></span>
+      </div>
+      <div class="why">
+        <span class="chip c-legal">Allegation cleared, one open</span>
+        <p>The SEC closed its AXON data-practices probe with no action in August 2026, after four short-seller reports drove real declines earlier in the year — the most investigable allegation came back clean. An unresolved CapitalWatch money-laundering claim keeps it out of the top tier, but the thesis-breaking accounting risk read from a week ago is now stale and was corrected.</p>
+        <ul class="sig"><li class="s-good"><span class="tag">Legal &amp; regulatory</span>SEC closed its AXON data-practices probe in Aug 2026 with no action — the most investigable allegation came back clean.</li><li class="s-bad"><span class="tag">Legal &amp; regulatory</span>CapitalWatch money-laundering claim remains unresolved.</li><li class="s-good"><span class="tag">Financials</span>77% operating margins and a 92 durability score on verified filings.</li></ul>
+      </div>
+      <div class="alloc">
+        <span class="amt">$30</span>
+        <div class="vs">model said $20 · <span class="up">sized up</span></div>
+        <div class="stats"><span>P/E <b>23.9</b></span><span>PEG <b>0.2</b></span><span>ROE <b>203.7%</b></span><span>Op mgn <b>77.4%</b></span><span>Cap <b>$104.2B</b></span><span>Durab. <b>92</b></span></div>
+      </div>
+    </article>
+    <article class="pos">
+      <div class="tick">
+        <span class="sym">ECO</span>
+        <span class="name">Okeanis Eco Tankers</span>
+        <div class="meter"><i style="width:72.7%"></i></div>
+        <span class="score">Score <b>72.7</b> · quality <b>97</b> · value <b>62</b></span>
+      </div>
+      <div class="why">
+        <span class="chip c-cycle">Same trade as DHT, thinner</span>
+        <p>The identical Hormuz-driven peak-tanker-rate thesis as DHT, on a smaller and thinner-traded name. Deliberately kept below DHT rather than sized alongside it — doubling a single cyclical thesis across two correlated names is concentration by accident rather than by decision.</p>
+        <ul class="sig"><li class="s-good"><span class="tag">Financials</span>Trailing P/E 6.1 with 62% operating margins.</li><li class="s-bad"><span class="tag">Market &amp; competition</span>Identical Hormuz peak-rate thesis to DHT, on a smaller and thinner-traded name.</li><li class="s-neutral"><span class="tag">Plans &amp; outlook</span>Held deliberately below DHT — doubling one cyclical thesis across correlated names is concentration by accident.</li></ul>
+      </div>
+      <div class="alloc">
+        <span class="amt">$15</span>
+        <div class="vs">model said $17 · <span class="dn">trimmed</span></div>
+        <div class="stats"><span>P/E <b>6.1</b></span><span>PEG <b>1.79</b></span><span>ROE <b>61.6%</b></span><span>Op mgn <b>62.3%</b></span><span>Cap <b>$2.5B</b></span><span>Durab. <b class="nil">—</b></span></div>
+      </div>
+    </article>
+    <article class="pos">
+      <div class="tick">
+        <span class="sym">NVO</span>
+        <span class="name">Novo Nordisk</span>
+        <div class="meter"><i style="width:73.6%"></i></div>
+        <span class="score">Score <b>73.6</b> · quality <b>100</b> · value <b>62</b></span>
+      </div>
+      <div class="why">
+        <span class="chip c-decl">Franchise deteriorating</span>
+        <p>Cheap for a reason that is still unfolding: confirmed ongoing share loss to Lilly — now trailing in ex-US share too, with Wegovy missing Q2 estimates. This is continuing competitive deterioration rather than a market oversight, which is the one pattern that argues against size rather than for it. Kept smallest of the eight.</p>
+        <ul class="sig"><li class="s-bad"><span class="tag">Market &amp; competition</span>Confirmed ongoing share loss to Lilly, now trailing in ex-US share as well.</li><li class="s-bad"><span class="tag">Plans &amp; outlook</span>Guided to a US sales decline; Wegovy missed Q2 estimates.</li><li class="s-good"><span class="tag">Financials</span>Still 100 on quality — 60% ROE and 43% operating margins; the franchise is deteriorating, not broken.</li></ul>
+      </div>
+      <div class="alloc">
+        <span class="amt">$14</span>
+        <div class="vs">model said $21 · <span class="dn">sized down</span></div>
+        <div class="stats"><span>P/E <b>11.9</b></span><span>PEG <b>0.65</b></span><span>ROE <b>59.8%</b></span><span>Op mgn <b>43.1%</b></span><span>Cap <b>$212.0B</b></span><span>Durab. <b class="nil">—</b></span></div>
+      </div>
+    </article></div>
+<div class="sec"><h2>Also above threshold</h2><div class="rule"></div>
+<span class="count">6 not sized</span></div>
+<p class="sub">Cleared the bar but ranked below the book above. They stay on the board and are
+re-scored every run.</p>
+<div class="scroll"><table>
+<thead><tr><th>Symbol</th><th>Score</th><th>Quality</th><th>Value</th><th>Durability</th>
+<th>P/E</th><th>PEG</th><th>ROE</th><th>Op margin</th><th>Market cap</th></tr></thead>
+<tbody><tr><td>GFI</td><td>71.5</td><td>92</td><td>65</td><td><span class=nil>—</span></td><td>12.2</td><td>0.43</td><td>58.4%</td><td>53.5%</td><td>$43.2B</td></tr><tr><td>KSPI</td><td>71.3</td><td>84</td><td>75</td><td><span class=nil>—</span></td><td>9.8</td><td>0.29</td><td>46.6%</td><td>33.2%</td><td>$20.8B</td></tr><tr><td>CF</td><td>70.8</td><td>81</td><td>78</td><td><span class=nil>—</span></td><td>9.4</td><td>0.22</td><td>39.2%</td><td>39.1%</td><td>$19.2B</td></tr><tr><td>HESM</td><td>70.7</td><td>100</td><td>52</td><td><span class=nil>—</span></td><td>13.5</td><td>0.8</td><td>65.2%</td><td>62.3%</td><td>$8.2B</td></tr><tr><td>EXEL</td><td>70.6</td><td>100</td><td>52</td><td><span class=nil>—</span></td><td>17.8</td><td>0.34</td><td>44.4%</td><td>40.7%</td><td>$13.9B</td></tr><tr><td>ADBE</td><td>70.5</td><td>94</td><td>20</td><td>90</td><td>15.7</td><td>1.75</td><td>63.0%</td><td>36.1%</td><td>$108.5B</td></tr></tbody></table></div>
+<div class="sec"><h2>Examined and declined</h2><div class="rule"></div>
+<span class="count">12 names</span></div>
+<p class="sub">Everything the screen looked at and passed on, with the reason. These verdicts are
+computed by the veto layer rather than researched — which is why the list is complete rather than a
+sample. A rejection here is about the numbers; the names above are where research was actually
+spent.</p>
+<div class="scroll"><table>
+<thead><tr><th>Symbol</th><th>Verdict</th><th>Score</th><th>Reason</th></tr></thead>
+<tbody><tr><td>FIS</td><td><span class="verdict v-veto">Vetoed</span></td><td><span class=nil>—</span></td><td class="reason">P/E 6.2 — 2 loss-making quarters in the window; net margin 83% below its own average (6.8% vs 41.3%). The classic trap signature: the multiple is low because the E is stale.</td></tr><tr><td>STZ</td><td><span class="verdict v-veto">Vetoed</span></td><td><span class=nil>—</span></td><td class="reason">P/E 12.9 — 2 loss-making quarters, plus 5 consecutive quarters of YoY revenue decline (limit 3).</td></tr><tr><td>TGTX</td><td><span class="verdict v-veto">Vetoed</span></td><td><span class=nil>—</span></td><td class="reason">P/E 20.2 — 2 loss-making quarters; net margin 90% below its own average (3.2% vs 31.1%).</td></tr><tr><td>LULU</td><td><span class="verdict v-veto">Vetoed</span></td><td><span class=nil>—</span></td><td class="reason">P/E 9.6 — net margin 49% below its own average (7.9% vs 15.5%).</td></tr><tr><td>DUOL</td><td><span class="verdict v-veto">Vetoed</span></td><td><span class=nil>—</span></td><td class="reason">P/E 17.5 — net margin 47% below its own average (11.1% vs 20.8%).</td></tr><tr><td>EXPE</td><td><span class="verdict v-veto">Vetoed</span></td><td><span class=nil>—</span></td><td class="reason">P/E 21.1 — 3 loss-making quarters in the analysis window (limit 2).</td></tr><tr><td>SNDK</td><td><span class="verdict v-veto">Vetoed</span></td><td><span class=nil>—</span></td><td class="reason">P/E 20.1 — 4 loss-making quarters in the analysis window (limit 2).</td></tr><tr><td>IBM</td><td><span class="verdict v-veto">Vetoed</span></td><td><span class=nil>—</span></td><td class="reason">P/E 20.8 — 2 loss-making quarters in the analysis window (limit 2).</td></tr><tr><td>WDC</td><td><span class="verdict v-veto">Vetoed</span></td><td><span class=nil>—</span></td><td class="reason">P/E 18.6 — 2 loss-making quarters in the analysis window (limit 2).</td></tr><tr><td>CSL</td><td><span class="verdict v-below">Below bar</span></td><td>47.9</td><td class="reason">Passed the vetoes but scored below the 65.0 entry bar — quality and value both mid-band, nothing cheap enough to compensate.</td></tr><tr><td>BSX</td><td><span class="verdict v-below">Below bar</span></td><td>42.5</td><td class="reason">Passed the vetoes; earnings yield too low to clear the value band at this multiple.</td></tr><tr><td>ACN</td><td><span class="verdict v-below">Below bar</span></td><td>30.3</td><td class="reason">Passed the vetoes; priced near fair value on every axis the screen measures.</td></tr></tbody></table></div>
+<footer>
+<p><b>How to read the durability column.</b> 10 of 14 names show no durability
+score. That is a data gap, not a finding: the fundamentals vendor returns nothing for most
+non-US-domiciled issuers, so the subscore that checks whether a cheap trailing snapshot is flattering
+a deteriorating business cannot be computed for them. Their composite carries a haircut for the
+unmeasured weight, and the research notes stand in for it by hand. A value screen surfaces shipping,
+miners and foreign pharma disproportionately — so the check goes missing precisely where it would
+matter most.</p>
+<p><b>Benchmark.</b> The objective is to beat the S&amp;P 500, and cash counts as a short against it.
+First run to record a reference point — SPY $766.52 against an account value of $354.00 — so relative performance can be stated from the next run onward.</p>
+<p>Screening output, not investment advice. Scores order candidates; they are not probabilities.
+Nothing in the pipeline can see debt, cash flow, customer concentration or accounting choices — every
+judgment about leverage and litigation came from research layered on top of the numbers.
+Built 26 Aug 2026, 14:20 UTC.</p>
+</footer>
+</div></body></html>
